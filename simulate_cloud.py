@@ -43,14 +43,14 @@ def generate_points_cylindrical(*, num_points:int= 2000, radius, height, concent
         angle[i] = uniform(0, 2*pi)
 
     scaler=radius/concentration
-    distribution_r = truncnorm(a=0, b=radius/scaler, scale=scaler)
+    distribution_r = truncnorm(a=-radius/2/scaler, b=radius/2/scaler, scale=scaler)
 
     scalez=height/concentration
-    distribution_z = truncnorm(a=-height/scalez, b=height/scalez, scale=scalez)
+    distribution_z = truncnorm(a=-height/2/scalez, b=height/2/scalez, scale=scalez)
     r=distribution_r.rvs(size=num_points)
 
-    x=r*cos(angle)
-    y=r*sin(angle)
+    x=abs(r)*cos(angle)
+    y=abs(r)*sin(angle)
     z=distribution_z.rvs(size=num_points)
 
     points = zip(x,y,z)
