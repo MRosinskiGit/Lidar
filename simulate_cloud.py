@@ -1,13 +1,12 @@
 from scipy.stats import norm
 from scipy.stats import truncnorm
-from csv import writer
-from numpy import zeros, cos, sin, cos, pi, array, ones
-from random import uniform, random
-import numpy
+from numpy import zeros, sin, cos, pi, ones
+from random import uniform
 
 
 
-def generate_points_horizontal(*, num_points:int= 2000, length, depth, concentration:int=1):
+
+def generate_points_horizontal(*, num_points:int= 2000, length, depth, concentration:int=1, move=[0,0,0]):
     scalex=length/concentration
     distribution_x = truncnorm(a=-length/scalex, b=length/scalex, scale=scalex)
     scaley=depth/concentration
@@ -18,11 +17,15 @@ def generate_points_horizontal(*, num_points:int= 2000, length, depth, concentra
     y=distribution_y.rvs(size=num_points)
     z=zeros(num_points)
 
+    x=x+move[0]
+    y=y+move[1]
+    z=z+move[2]
+
     points = zip(x,y,z)
     return points
 
 
-def generate_points_vertical(*, num_points:int= 2000, width, height, concentration:int=1):
+def generate_points_vertical(*, num_points:int= 2000, width, height, concentration:int=1, move=[0,0,0]):
     scalex=width/concentration
     distribution_x = truncnorm(a=-width/scalex, b=width/scalex, scale=scalex)
     #distribution_y = norm(loc=0, scale=0.05)
@@ -33,11 +36,15 @@ def generate_points_vertical(*, num_points:int= 2000, width, height, concentrati
     y=zeros(num_points)
     z=distribution_z.rvs(size=num_points)
 
+    x=x+move[0]
+    y=y+move[1]
+    z=z+move[2]
+
     points = zip(x,y,z)
     return points
 
 
-def generate_points_cylindrical(*, num_points:int= 2000, radius, height, concentration:int=1):
+def generate_points_cylindrical(*, num_points:int= 2000, radius, height, concentration:int=1, move=[0,0,0]):
     angle=ones(num_points)
     for i in range (0,num_points):
         angle[i] = uniform(0, 2*pi)
@@ -52,6 +59,10 @@ def generate_points_cylindrical(*, num_points:int= 2000, radius, height, concent
     x=abs(r)*cos(angle)
     y=abs(r)*sin(angle)
     z=distribution_z.rvs(size=num_points)
+
+    x=x+move[0]
+    y=y+move[1]
+    z=z+move[2]
 
     points = zip(x,y,z)
     return points
