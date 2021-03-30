@@ -116,5 +116,5 @@ for temp in range(len(cluster1_x)-1):                                           
     W.append(W)
 
 
-distance = (np.add((np.multiply(coord,W)),D))
+distance = (np.add((np.multiply(coord,W)),D)) #
 print(distance)
