@@ -48,10 +48,10 @@ blue = y_pred == 1
 cyan = y_pred == 2
 
 ax = plt.axes(projection='3d')
-# ax.scatter(X_array[red, 0], X_array[red, 1], X_array[red, 2], c="r")
-# ax.scatter(X_array[blue, 0], X_array[blue, 1], X_array[blue, 2],c="b")
-# ax.scatter(X_array[cyan, 0], X_array[cyan, 1], X_array[cyan, 2],c="c")
-
+ax.scatter(X_array[red, 0], X_array[red, 1], X_array[red, 2], c="r")
+ax.scatter(X_array[blue, 0], X_array[blue, 1], X_array[blue, 2],c="b")
+ax.scatter(X_array[cyan, 0], X_array[cyan, 1], X_array[cyan, 2],c="c")
+plt.show()
 
 cluster1_x,cluster1_y,cluster1_z = [], [], []
 licznik=0
@@ -87,9 +87,9 @@ for val in range(len(y_pred)):
         licznik += 1
 
 
-ax.scatter(cluster1_x, cluster1_y, cluster1_z, c="r")
-ax.scatter(cluster1_x, cluster1_y, cluster1_z, c="r")
-ax.scatter(cluster1_x, cluster1_y, cluster1_z, c="r")
+# ax.scatter(cluster1_x, cluster1_y, cluster1_z, c="r")
+# ax.scatter(cluster1_x, cluster1_y, cluster1_z, c="r")
+# ax.scatter(cluster1_x, cluster1_y, cluster1_z, c="r")
 
 # plt.show()
 
