@@ -6,6 +6,8 @@ import random
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.cluster import KMeans
 from scipy.stats import norm
+import pyransac3d
+
 
 
 with open('LidarData.xyz', 'w', newline='\n') as csvfile:                   #otwórz plik i wygeneruj do niego dane
@@ -92,29 +94,45 @@ for val in range(len(y_pred)):                                             #podz
 # ax.scatter(cluster1_x, cluster1_y, cluster1_z, c="r")
 
 # plt.show()
+#######################
+# losulosu = random.randint(0,len(cluster1_x))
+# losowy_punkt_klaster1_1 = [cluster1_x[losulosu], cluster1_y[losulosu], cluster1_z[losulosu]]        #losowanie 3 punktów z klastra
+#
+# losulosu = random.randint(0,len(cluster1_x))
+# losowy_punkt_klaster1_2 = [cluster1_x[losulosu], cluster1_y[losulosu], cluster1_z[losulosu]]
+#
+# losulosu = random.randint(0,len(cluster1_x))
+# losowy_punkt_klaster1_3 = [cluster1_x[losulosu], cluster1_y[losulosu], cluster1_z[losulosu]]
+#
+# VectA = np.subtract(losowy_punkt_klaster1_1,losowy_punkt_klaster1_3)                            #odejmowanie wetkrów
+# VectB = np.subtract(losowy_punkt_klaster1_2,losowy_punkt_klaster1_3)
+#
+# VectUa = VectA/np.linalg.norm(VectA)                                                            #obliczanie W
+# VectUb = VectB/np.linalg.norm(VectB)
+# W = np.cross(VectUa,VectUb)
+#
+# D=np.sum(np.multiply(W, losowy_punkt_klaster1_3))                                                 #obliczenie D
+# np.subtract(losowy_punkt_klaster1_1,losowy_punkt_klaster1_3)
+# W=list(W)
+# for temp in range(len(cluster1_x)-1):                                                  #stworzenie listy W do obliczania dystaunsu
+#     W.append(W)
+#
+# distance = (np.add((np.multiply(coord,W)),D)) #
+# print(distance)
+######################
+cloud1 = np.array(list(zip(cluster1_x,cluster1_y,cluster1_z)))
+cloud2 = np.array(list(zip(cluster2_x,cluster1_y,cluster2_z)))
+cloud3 = np.array(list(zip(cluster3_x,cluster3_y,cluster3_z)))
+plane1 = pyransac3d.Plane()
+plane2 = pyransac3d.Plane()
+plane3 = pyransac3d.Plane()
+best_eq1, best_inliners1=plane1.fit(cloud1, thresh=0.01, minPoints=100, maxIteration=1000)
+best_eq2, best_inliners2=plane1.fit(cloud2, thresh=0.01, minPoints=100, maxIteration=1000)
+best_eq3, best_inliners3=plane1.fit(cloud3, thresh=0.01, minPoints=100, maxIteration=1000)
+print(f'Best equasion for plane 1 Ax+Bx+Cx+D=0:{best_eq1}')
+print(f'Best equasion for plane 2 Ax+Bx+Cx+D=0:{best_eq2}')
+print(f'Best equasion for plane 3 Ax+Bx+Cx+D=0:{best_eq3}')
 
-losulosu = random.randint(0,len(cluster1_x))
-losowy_punkt_klaster1_1 = [cluster1_x[losulosu], cluster1_y[losulosu], cluster1_z[losulosu]]        #losowanie 3 punktów z klastra
-
-losulosu = random.randint(0,len(cluster1_x))
-losowy_punkt_klaster1_2 = [cluster1_x[losulosu], cluster1_y[losulosu], cluster1_z[losulosu]]
-
-losulosu = random.randint(0,len(cluster1_x))
-losowy_punkt_klaster1_3 = [cluster1_x[losulosu], cluster1_y[losulosu], cluster1_z[losulosu]]
-
-VectA = np.subtract(losowy_punkt_klaster1_1,losowy_punkt_klaster1_3)                            #odejmowanie wetkrów
-VectB = np.subtract(losowy_punkt_klaster1_2,losowy_punkt_klaster1_3)
-
-VectUa = VectA/np.linalg.norm(VectA)                                                            #obliczanie W
-VectUb = VectB/np.linalg.norm(VectB)
-W = np.cross(VectUa,VectUb)
-
-D=np.sum(np.multiply(W, losowy_punkt_klaster1_3))                                                 #obliczenie D
-np.subtract(losowy_punkt_klaster1_1,losowy_punkt_klaster1_3)
-W=list(W)
-for temp in range(len(cluster1_x)-1):                                                  #stworzenie listy W do obliczania dystaunsu
-    W.append(W)
-
-
-distance = (np.add((np.multiply(coord,W)),D)) #
-print(distance)
+print(f'best inliners for plane 1 :{best_inliners1}')
+print(f'best inliners for plane 2 :{best_inliners2}')
+print(f'best inliners for plane 3 :{best_inliners3}')
